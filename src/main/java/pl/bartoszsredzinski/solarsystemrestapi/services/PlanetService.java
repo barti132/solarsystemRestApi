@@ -1,5 +1,7 @@
 package pl.bartoszsredzinski.solarsystemrestapi.services;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.bartoszsredzinski.solarsystemrestapi.model.Planet;
 import pl.bartoszsredzinski.solarsystemrestapi.repositories.PlanetRepository;
@@ -10,7 +12,7 @@ import java.util.List;
 @Service
 public class PlanetService {
 
-    private PlanetRepository repository;
+    private final PlanetRepository repository;
 
     public PlanetService(PlanetRepository repository) {
         this.repository = repository;
@@ -30,9 +32,10 @@ public class PlanetService {
         return repository.findById(id).orElse(null);
     }
 
-    public void save(Planet planet) {
+    public ResponseEntity<Planet> save(Planet planet) {
         if(repository.findByName(planet.getName()) == null)
-            repository.save(planet);
+            return new ResponseEntity<>(planet, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     public void delete(Planet planet) {
