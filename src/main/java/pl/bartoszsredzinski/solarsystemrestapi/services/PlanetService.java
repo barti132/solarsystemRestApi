@@ -1,5 +1,6 @@
 package pl.bartoszsredzinski.solarsystemrestapi.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -33,8 +34,10 @@ public class PlanetService {
     }
 
     public ResponseEntity<Planet> save(Planet planet) {
-        if(repository.findByName(planet.getName()) == null)
+        if(repository.findByName(planet.getName()) == null) {
+            repository.save(planet);
             return new ResponseEntity<>(planet, HttpStatus.CREATED);
+        }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 

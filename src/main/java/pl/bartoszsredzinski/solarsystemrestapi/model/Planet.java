@@ -22,7 +22,9 @@ public class Planet implements Serializable {
     private Long id;
 
     private String name;
+
+    @Lob
     private String description;
     private Long distanceFromSun;
-    private Long mass;
+    private String mass;
 }
